@@ -1,0 +1,59 @@
+{#
+    molspace_stats.html
+    ~~~~~~~~~~~~~~~~~~~
+
+    Sidebar to display the recent statistics about MolSpace
+
+    :copyright: Copyright 2011-2013 by the Silicos-it
+    :license: BSD, see LICENSE for details.
+#}
+
+<?php
+
+require_once "mailme.php";
+require_once "settings.php";
+
+$date_line = 0;
+$stat_line = 0;
+$filename = static_dir() . "/com.silicos-it.molspace.statistics.txt";
+if (file_exists($filename))
+{
+	$line = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+	
+	$date = preg_split("/[\s]+/", $line[0]);
+	$update = date("M j, Y", strtotime($date[1]));
+	
+	$vendors = preg_split("/[\s]+/", $line[1]);
+	$vendors = intval($vendors[1]);
+	$vendors = number_format($vendors);
+	
+	$compounds = preg_split("/[\s]+/", $line[2]);
+	$compounds = intval($compounds[1]);
+	$compounds = number_format($compounds);
+	
+	$smiles = preg_split("/[\s]+/", $line[3]);
+	$smiles = intval($smiles[1]);
+	$smiles = number_format($smiles);
+	
+	$smilesroot = preg_split("/[\s]+/", $line[4]);
+	$smilesroot = intval($smilesroot[1]);
+	$smilesroot = number_format($smilesroot);
+
+	echo "<h3>MolSpace&trade; statistics</h3>\n";
+	echo "<div class=\"molspace_stats\">\n";
+	echo "<table>\n";
+	echo "<tr><td class=\"left\">Latest update:</td><td class=\"right\">$update</td></tr>\n";
+	echo "<tr><td class=\"left\">Sources:</td><td class=\"right\">$vendors</td></tr>\n";
+	echo "<tr><td class=\"left\">Total compounds:</td><td class=\"right\">$compounds</td></tr>\n";
+	echo "<tr><td class=\"left\">Unique compounds:</td><td class=\"right\">$smiles</td></tr>\n";
+	echo "<tr><td class=\"left\">Unique desalted:</td><td class=\"right\">$smilesroot</td></tr>\n";
+	echo "</table>\n";
+	echo "</div>\n";
+}
+else
+{
+	mailme($_SERVER['PHP_SELF'] . " -> file \"com.silicos-it.molspace.statistics.txt\" not found.");
+}
+
+?>
+

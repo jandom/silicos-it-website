@@ -1,0 +1,66 @@
+> strip-it -h
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Strip-it v1.0.2 | Jun 27 2013 11:19:26
+
+  -> GCC:         4.2.1 Compatible Apple Clang 4.0 ((tags/Apple/clang-421.0.60))
+  -> Open Babel:  2.3.1
+
+  Copyright 2012 by Silicos-it, a division of Imacosi BVBA
+
+
+  Strip-it is free software: you can redistribute it and/or modify
+  it under the terms of the GNU Lesser General Public License as published
+  by the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Strip-it is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public License
+  along with Strip-it.  If not, see http://www.gnu.org/licenses/.
+
+  Strip-it is linked against OpenBabel version 2.
+  OpenBabel is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation version 2 of the License.
+
+
+TASK: 
+
+  Strip-it is a tool to extract predefined scaffolds from input molecules.
+
+REQUIRED OPTIONS:
+
+  --input <file>
+    Specifies the file containing the input molecules. The format of the
+    file is specified by its file extension or by the --inputFormat option.
+    Gzipped files are also read.
+
+OPTIONAL OPTIONS:
+
+  --output <file>
+    Specifies the file to which the extracted scaffolds are written.
+    The file is a text file with on each row the original molecule
+    and the generated scaffolds in SMILES format. If this option is 
+    not provided, then all scaffolds are written to standard output.
+
+  --inputFormat <format>
+    Specifies the input file format. If not provided then the format
+    is determined from the file extension.
+
+  --scaffolds <file>
+    Specifies the file in which the required scaffolds have been defined.
+    If not provided then all scaffolds are calculated.
+
+  --noLog
+    Suppresses the output of additional information to standard error.
+
+  --noHeader
+    Suppresses the header line in the output.
+
+  -h  --help
+
+  -v  --version
+

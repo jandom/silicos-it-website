@@ -1,0 +1,129 @@
+{#
+    download_stats.html
+    ~~~~~~~~~~~~~~~~~~~
+
+    Sidebar to display the recent statistics about downloads
+
+    :copyright: Copyright 2011-2013 by the Silicos-it
+    :license: BSD, see LICENSE for details.
+#}
+<?php
+
+require_once "mailme.php";
+require_once "settings.php";
+
+
+function encode_image($width, $max)
+{
+	$height = 16;
+	$border = 1;
+	$im = @imagecreatetruecolor($width, $height);
+	$im_white = imagecolorallocate($im, 255, 255, 255);
+	imagecolortransparent($im, $im_white);
+	imagefilledrectangle($im, 0, 0, $width, $height, $im_white);
+	$high_color = array(60, 115, 115);
+	$r_color = array(185, 220, 220);
+	$l_color = array();
+	$l_color[0] = $r_color[0] - ($width / $max) * ($r_color[0] - $high_color[0]);
+	$l_color[1] = $r_color[1] - ($width / $max) * ($r_color[1] - $high_color[1]);
+	$l_color[2] = $r_color[2] - ($width / $max) * ($r_color[2] - $high_color[2]);
+	$d = array($r_color[0] - $l_color[0], $r_color[1] - $l_color[1], $r_color[2] - $l_color[2]);
+	for ($c = 0; $c < $width; ++$c)
+	{
+		$f = $c / $width;
+		$im_color = imagecolorallocate($im, $l_color[0] + $f * $d[0], $l_color[1] + $f * $d[1], $l_color[2] + $f * $d[2]);
+		for ($r = $border; $r < $height - (2 * $border); ++$r)
+		{
+			imagesetpixel($im, $c, $r, $im_color);
+		}
+	}
+	ob_start();
+	imagepng($im);
+	$stringdata = ob_get_contents();
+	ob_end_clean();
+	imagedestroy($im);
+    return 'data:image/png;base64,' . base64_encode($stringdata);
+}
+
+
+$stats = array(
+	'filter-it' => 0,
+	'strip-it'  => 0, 
+	'align-it'  => 0, 
+	'shape-it'  => 0,
+	'biscu-it'	=> 0, 
+	'som-it'    => 0
+);
+
+
+// Connect to database
+$db_server = mysql_connect(mysql_host(), "silide5_php", "kreeft1963");
+if (!$db_server)
+{
+	mailme($_SERVER['PHP_SELF'] . " -> unable to connect to MySQL: " . mysql_error());
+	exit(1);
+}
+mysql_select_db("silide5_downloads");
+if (!mysql_select_db("silide5_downloads"))
+{
+	mailme($_SERVER['PHP_SELF'] . " -> unable to select database: " . mysql_error());
+	exit(1);
+}
+
+
+// Query
+echo "<h3>Download statistics</h3>\n";
+echo "<div class=\"download_stats\">\n";
+$result = mysql_query("SELECT * FROM downloads");
+if (!$result)
+{
+	mailme($_SERVER['PHP_SELF'] . " -> database access failed: " . mysql_error());
+	echo "</div>\n";
+	exit(1);
+}
+else
+{
+	$nrows = number_format(round(mysql_num_rows($result), -1));
+	echo "<p class=\"download_stats_text\">\n";
+	echo "Already more than $nrows downloads and still counting:";
+	echo "</p>\n";
+}
+
+
+// Process results
+$max = 0;
+while ($row = mysql_fetch_array($result))
+{
+	$prg = $row['program'];
+	if ($prg == 'qed')
+	{
+		$prg = 'biscu-it';
+	}
+	if (array_key_exists($prg, $stats))
+	{
+		$stats[$prg] += 1;
+		if ($stats[$prg] > $max)
+		{
+			$max = $stats[$prg];
+		}
+	}
+}
+
+
+// Print results
+echo "<table>\n";
+foreach ($stats as $prg => $count)
+{
+	$t = ucfirst($prg);
+	$w = round(110 * $count / $max);
+	$n = number_format($stats[$prg]);
+	echo "<tr>";
+	echo "<td class=\"left\">>&nbsp;{$t}:</td>";
+	echo "<td class=\"right\">{$n} <img src=\"" . encode_image($w, 110) . "\" alt=\"hist\" /></td>";
+	echo "</tr>\n";
+}
+echo "</table>\n";
+echo "</div>\n";
+
+?>
+

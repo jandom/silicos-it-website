@@ -1,0 +1,5 @@
+SetEnv PHPRC /home/silide5/public_html/php.ini
+<FilesMatch "\.(htm|html|php)$">
+SetHandler application/x-httpd-php5
+</FilesMatch> 
+

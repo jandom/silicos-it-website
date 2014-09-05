@@ -1,0 +1,106 @@
+> filter-it
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Filter-it v1.0.2 | Apr 26 2013 13:24:13
+
+  -> GCC:        4.2.1 Compatible Apple Clang 4.0 ((tags/Apple/clang-421.0.60))
+  -> Open Babel: 2.3.1
+
+Copyright 2012 by Silicos-it, a division of Imacosi BVBA
+
+Filter-it is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Filter-it is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with Filter-it.  If not, see http://www.gnu.org/licenses/.
+
+Filter-it is linked against OpenBabel version 2.
+OpenBabel is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation version 2 of the License.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+TASK: 
+
+  Filter-it is a tool to filter molecules from molecules.
+
+USAGE 
+
+  filter-it [options]
+
+REQUIRED OPTIONS:
+
+  --input=[file]
+    Specifies the file containing the input molecules. The format of the
+    file is specified by the file extension or, with higher priority, by the
+    optional --inputFormat=[format] option. Gzipped files are also processed.
+    The [file] specification is required.
+
+  --filter=[file]
+    Specifies the file that defines the filter criteria. The [file] specification
+    is required.
+
+OPTIONAL OPTIONS:
+
+  --inputFormat=[format]
+    Specifies the format of the input file. The [format] specification is required
+    when using this option.
+
+  --pass=[file]
+    Specifies the file to which the molecules are written that pass the
+    filtering. The format of the file is specified by the file extension or,
+    with higher priority, by the --passFormat=[format] option. If the
+    extension is .gz, a compressed file will be written. The [file] specification
+    is required when using this option.
+
+  --passFormat=[format]
+    Specifies the format of the pass file. The <format> specification is required
+    when using this option.
+
+  --fail=[file]
+    Specifies the file to which the molecules are written that do not pass the
+    filter criteria. The format of the file is specified by the file extension
+    or, with higher priority, by the --failFormat=[format] option. If the
+    extension is .gz, a compressed file will be written. The [file] argument
+    is required when using this option.
+
+  --failFormat=[format]
+    Specifies the format of the fail file. The [format] specification is required
+    when using this option.
+
+  --tab or --tab=[file]
+    This flag directs the program to calculate all properties listed in
+    the filter definition file without applying any filtering step.
+    The calculated parameters are written to [file]. The [file] argument is
+    optional; if not provided then all output is written to standard output.
+
+  --salts
+    This flag directs the program not to strip away all salt fragments from the
+    molecules before the filtering takes place. By specifying this option,
+    this stripping is not performed and ensures that all salt counterions
+    are also taken into account during the filtering process.
+
+  --rename
+    This flag directs the program to rename the title of each molecules
+    into a increasing digit reflecting the sequence of the molecule in
+    the input file. Existing titles are overwritten.
+
+  --noLog
+    This flag specifies whether verbose logging should be switched off. When not
+    specified, then for each molecule a message is written to standard output
+    whether the molecule passes or fails the filter criteria. Is only of use when
+    the program is used in filtering mode (not in tabulate mode).
+
+  --help | -h
+    Displays this help on standard error.
+
+  --version | -v
+    Displays the program version on standard error.
+

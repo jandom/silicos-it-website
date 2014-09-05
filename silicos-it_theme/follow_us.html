@@ -1,0 +1,41 @@
+{#
+    follow_us.html
+    ~~~~~~~~~~~~~~~~~~~
+
+    :copyright: Copyright 2011-2013 by the Silicos-it
+    :license: BSD, see LICENSE for details.
+#}
+<h3>Follow us</h3>
+<div class="follow_us">
+	<p class="follow_us_text">To receive our latest news, product updates and general aspects on 
+		open source chemoinformatics, subscribe to our 
+		<a href="http://groups.google.com/group/silicos-it-chemoinformatics" target="_blank">
+		Google groups community</a>:
+	</p>
+	<form id="google_groups_membership" 
+		name="google_groups_membership" 
+		action="http://groups.google.com/group/silicos-it-chemoinformatics/boxsubscribe"
+		method="get" 
+		target="_blank">
+		<fieldset>
+			<ul>
+				<li class="email">
+					<input type="text" 
+						name="email" 
+						class="email" 
+						maxlength="255" 
+						tabindex="1" 
+						value="Your email address" 
+						onclick="javascript:clearvalue(this.form);" 
+						onblur="javascript:showvalue(this.form);" />
+				</li>
+				<li class="submit"> 
+					<input type="submit" 
+						name="submit" 
+						class="submit" 
+						value="Subscribe" />
+				</li>
+			</ul>
+		</fieldset>
+	</form>
+ </div>	

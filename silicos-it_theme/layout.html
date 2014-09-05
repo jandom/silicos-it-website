@@ -1,0 +1,157 @@
+{%- set url_root = pathto('', 1) %}
+{%- if url_root == '#' %}
+	{% set url_root = '' %}
+{% endif %}
+{%- set titleprefix = docstitle|e + " | "|safe %}
+
+{%- macro menuBar() %}
+	<div class="menuBar">
+		<ul>
+			<li><a href="{{ pathto('index') }}">welcome</a></li>
+			<li class="bar">|</li>
+			<li><a href="{{ pathto('software/software') }}">software</a></li>
+			<li class="bar">|</li>
+			<li><a href="{{ pathto('cookbook/cookbook') }}">cookbook</a></li>
+			<li class="bar">|</li>
+			<li><a href="{{ pathto('molspace/molspace') }}">molspace</a></li>
+			<li class="bar">|</li>
+			<li><a href="{{ pathto('links/links') }}">links</a></li>
+			<li class="bar">|</li>
+			<li><a href="{{ pathto('about/about') }}">about</a></li>
+			<li class="date">
+			<?php 
+			date_default_timezone_set("Europe/Brussels");
+			print strtoupper(date("F j, Y", time()));
+			?>
+			</li>
+		</ul>
+	</div>
+{%- endmacro %}
+
+{%- macro infoBar() %}
+	{%- for sidebartemplate in sidebars %}
+	{%- include sidebartemplate %}
+	{%- endfor %}
+{%- endmacro %}
+
+{%- macro script() %}
+	<script type="text/javascript">
+	var DOCUMENTATION_OPTIONS = {
+		URL_ROOT:    '{{ url_root }}',
+		VERSION:     '{{ release|e }}',
+		COLLAPSE_INDEX: false,
+		FILE_SUFFIX: '{{ '' if no_search_suffix else file_suffix }}',
+		HAS_SOURCE:  {{ has_source|lower }}
+	};
+	</script>
+	<script type="text/javascript">
+	function clearvalue(form) {
+		form.email.value = "";
+		form.email.style.color = "#4B4B4B";
+	};
+	</script>
+	<script type="text/javascript">
+	function showvalue(form) {
+		form.email.style.color = "#969696";
+		form.email.value = "Your email address";
+	};
+	</script>
+{%- for scriptfile in script_files %}
+	<script type="text/javascript" src="{{ pathto(scriptfile, 1) }}">
+	</script>
+{%- endfor %}
+{%- endmacro %}
+
+{%- macro css() %}
+	<link rel="stylesheet" href="{{ pathto('_static/' + style, 1) }}" type="text/css" media="screen" title="General"/>
+{%- endmacro %}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset={{ encoding }}" />
+	<meta id="copyright" name="copyright" content="Copyright 2012 Silicos-it, a division of Imacosi bvba" />
+	<meta name="keywords" content="virtual screening, self-organising map, self-organizing map, openbabel, 
+	rdkit, cdk, babel, obabel, computational drug design, drug design, services, code conversion, mysql, molspace,
+	spectrophore, sieve, stripper, pharao, piramid, filter-it, strip-it, som-it, shape-it, align-it, blog,
+	chemoinformatics, cheminformatics, computational chemistry, computational chemistry services, hans de winter,
+	sphinx, drupal, php" />
+	{{ metatags }}
+	
+	<title>
+		{{ titleprefix }}{{ title|striptags|e }}
+	</title>
+	
+	{{ css() }}
+	
+	<link rel="shortcut icon" href="{{ pathto('_static/' + favicon, 1) }}"/>
+	
+	{{ script() }}
+	<script type="text/javascript"
+		src="https://d3eoax9i5htok0.cloudfront.net/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-29267715-1']);
+		_gaq.push(['_trackPageview']);
+		(function() {
+			var ga = document.createElement('script');
+			ga.type = 'text/javascript';
+			ga.async = true;
+	    	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    	var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+	  	})();
+	</script>
+</head>
+
+
+<body>
+	<div class="header">
+		<img class="header_logo" src="{{ pathto("_static/header.png", 1) }}" alt="Silicos-it"/>
+		{{ menuBar() }}
+	</div>
+
+	<div class="wrapper">
+		<div class="text">
+			{% block body %} {% endblock %}
+		</div>
+		
+		<div class="info">
+			<a href="http://www.fsf.org/" target="_blank">
+			<img class="logo_fsf" src="{{ pathto('_static/' + logo, 1) }}" alt="Free software foundation" /></a>
+			{{ infoBar() }}
+		</div>
+	</div>
+
+	<div class="footer">
+		{{ menuBar() }}
+		<div class="copyright">
+			<ul>
+				<li class="copyright">
+					Copyright {{ copyright }}. Last updated on {{ last_updated }}.
+					Created by Silicos-it using <a href="http://sphinx.pocoo.org/">Sphinx</a> {{ sphinx_version }}
+				</li>
+				<li class="twitter">
+					<a href="http://twitter.com/hans_silicos_it/" target="_blank">
+						<img class="twitter" src="{{ pathto('_static/logo_twitter.gif', 1) }}" alt="Twitter"/>
+					</a>
+				</li>
+				<li class="linkedin">
+					<a href="http://www.linkedin.com/company/silicos-it" target="_blank">
+						<img class="linkedin" src="{{ pathto('_static/logo_linkedin.gif', 1) }}" alt="Linkedin"/>
+					</a>
+				</li>
+				<li class="w3c">
+					<a href="http://validator.w3.org" target="_blank">
+						<img class="w3c" src="{{ pathto('_static/logo_w3c_xhtml1_0.gif', 1) }}" alt="W3C"/>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+
+</html>

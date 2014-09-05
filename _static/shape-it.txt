@@ -1,0 +1,113 @@
+> shape-it -h
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  Shape-it v1.0.1 | Oct  7 2012 11:16:22
+
+  -> GCC:       4.2.1 Compatible Apple Clang 4.0 ((tags/Apple/clang-421.0.60))
+  -> OpenBabel: 2.3.1
+
+  Copyright 2012 by Silicos-it, a division of Imacosi BVBA
+
+  Shape-it is free software: you can redistribute it and/or modify
+  it under the terms of the GNU Lesser General Public License as published
+  by the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Shape-it is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Lesser General Public License for more details.
+
+  Shape-it is linked against OpenBabel version 2.
+  OpenBabel is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation version 2 of the License.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+TASK:
+
+  Shape-it is a tool to align pairs of molecules based on their maximal
+  volume overlap.
+
+
+REQUIRED OPTIONS: 
+  -r, --reference <file>
+           File of the reference molecule with 3D coordinates.
+           Only the first molecule in the reference file will be used.
+           Shape-it can also handle a gzipped files if the extension is '.gz'
+           All input formats which are recognized by OpenBabel are allowed.
+  -d, --dbase <file>
+           File of the database molecules with 3D coordinates.
+           Shape-it can also handle gzipped files if the extension is '.gz'
+           All input formats which are recognized by OpenBabel are allowed.
+
+
+OUTPUT OPTIONS: 
+One of these two output options is required:
+
+  -o, --out <file>
+           File to write all database or the N best molecules such that their
+           coordinates correspond to the best alignment with the reference molecule.
+           The first molecule in the file is the reference molecule. When this file
+           if of type 'sdf', then each molecule contains a set of properties in which
+           the respective scores are reported. These fields are labeled with an
+           identifier starting with the tag Shape-it::
+
+  -s, --scores <file>
+           Tab-delimited text file with the scores of molecules.
+           When the N best scoring molecules are reported the molecules are ranked
+           with the descending scores.
+
+
+OPTIONAL OPTIONS: 
+
+  -f, --format <format>
+          Specifies the format of the reference, database and output files. If not
+          provided, then the formats are determined from the respective file extensions.
+          The specified format string should be one of the formats recognised
+          by OpenBabel.
+
+  --best <N> 
+           When this option is used, only the N best scoring alignments will be
+           reported. The scoring function is defined by the --rankBy option.
+           By default all molecules in the database are reported with their
+           respective scores without any ordering.
+
+  --scoreOnly
+           When this option is used the molecules are not aligned, only the volume
+           overlap between the reference and the given pose is computed.
+
+  --addIterations <nbr>
+           Sets the number of additional iterations in the simulated annealing
+           optimization step. The default value is set to 0, which refers to only
+           a local gradient ascent. Increasing the number of iterations will add
+           additional steps, and might give better alignments but it also takes
+           more time.
+
+  --rankBy <code>
+           This option can be used in combination with --best of --cutoff to rank
+           the molecules according to a given scoring function. The type of scoring
+           function is indicated with a code:
+             - TANIMOTO = Taninoto
+             - TVERSKY_REF = reference Tversky
+             - TVERSKY_DB = database Tversky
+           By default TANIMOTO is used.
+
+  --cutoff <value>
+           Defines a cutoff value. Only molecules with a score higher than the
+           cutoff are reported in the results files. Default value is set to
+           0.0. The scoring function is defined by the --rankBy option.
+
+  --noRef
+           By default the reference molecule is written in the output files.
+           Use this option to switch off this behavior.
+
+
+HELP: 
+
+  -h, --help
+           Prints this help overview.
+
+  -v, --version
+           Prints the version of the program.
+
